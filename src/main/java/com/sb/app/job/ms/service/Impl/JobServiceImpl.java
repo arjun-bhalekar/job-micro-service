@@ -1,13 +1,18 @@
 package com.sb.app.job.ms.service.Impl;
 
+import com.sb.app.job.ms.dto.JobWithCompanyDto;
 import com.sb.app.job.ms.entity.Job;
+import com.sb.app.job.ms.external.Company;
 import com.sb.app.job.ms.repository.JobRepository;
 import com.sb.app.job.ms.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -64,5 +69,23 @@ public class JobServiceImpl implements JobService {
     @Override
     public Long findJobCountBy(Long companyId) {
         return jobRepository.countByCompanyId(companyId);
+    }
+
+    @Override
+    public List<JobWithCompanyDto> findAllJobWithCompany() {
+
+        List<Job> jobs = jobRepository.findAll();
+        return jobs.stream().map(this::convertJobToJobWithCompanyDto).collect(Collectors.toList());
+    }
+
+    private JobWithCompanyDto convertJobToJobWithCompanyDto(Job job) {
+
+        JobWithCompanyDto jobWithCompanyDto = new JobWithCompanyDto();
+        jobWithCompanyDto.setJob(job);
+        RestTemplate restTemplate = new RestTemplate();
+        Company company = restTemplate
+                .getForObject("http://localhost:8081/companies/" + job.getCompanyId(), Company.class);
+        jobWithCompanyDto.setCompany(company);
+        return jobWithCompanyDto;
     }
 }

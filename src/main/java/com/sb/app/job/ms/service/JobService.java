@@ -1,5 +1,6 @@
 package com.sb.app.job.ms.service;
 
+import com.sb.app.job.ms.dto.JobWithCompanyDto;
 import com.sb.app.job.ms.entity.Job;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface JobService {
     boolean updateJob(Long id, Job updatedJob);
 
     Long findJobCountBy(Long companyId);
+
+    List<JobWithCompanyDto> findAllJobWithCompany();
+
 }

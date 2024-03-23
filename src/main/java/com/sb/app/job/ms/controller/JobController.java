@@ -1,5 +1,6 @@
 package com.sb.app.job.ms.controller;
 
+import com.sb.app.job.ms.dto.JobWithCompanyDto;
 import com.sb.app.job.ms.entity.Job;
 import com.sb.app.job.ms.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class JobController {
     private JobService jobService;
 
     @GetMapping
-    public ResponseEntity<List<Job>> findAll() {
-        return ResponseEntity.ok(jobService.findAll());
+    public ResponseEntity<List<JobWithCompanyDto>> findAll() {
+        return ResponseEntity.ok(jobService.findAllJobWithCompany());
     }
 
     @PostMapping
