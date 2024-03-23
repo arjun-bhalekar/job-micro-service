@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,9 @@ public class JobServiceImpl implements JobService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     //private List<Job> jobs = new ArrayList<>();
     //private Long nextId = 1L;
@@ -78,13 +82,22 @@ public class JobServiceImpl implements JobService {
         return jobs.stream().map(this::convertJobToJobWithCompanyDto).collect(Collectors.toList());
     }
 
+    @Override
+    public JobWithCompanyDto findJobWithCompanyByJobId(Long id) {
+        Job job = jobRepository.findById(id).orElse(null);
+        if(Objects.nonNull(job))
+            return convertJobToJobWithCompanyDto(job);
+        else
+            return null;
+    }
+
     private JobWithCompanyDto convertJobToJobWithCompanyDto(Job job) {
 
         JobWithCompanyDto jobWithCompanyDto = new JobWithCompanyDto();
         jobWithCompanyDto.setJob(job);
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
         Company company = restTemplate
-                .getForObject("http://localhost:8081/companies/" + job.getCompanyId(), Company.class);
+                .getForObject("http://COMPANY-MICRO-SERVICE:8081/companies/" + job.getCompanyId(), Company.class);
         jobWithCompanyDto.setCompany(company);
         return jobWithCompanyDto;
     }

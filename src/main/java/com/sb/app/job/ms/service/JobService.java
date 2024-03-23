@@ -20,4 +20,5 @@ public interface JobService {
 
     List<JobWithCompanyDto> findAllJobWithCompany();
 
+    JobWithCompanyDto findJobWithCompanyByJobId(Long id);
 }

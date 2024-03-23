@@ -38,12 +38,12 @@ public class JobController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Job> getJobById(@PathVariable Long id) {
+    public ResponseEntity<JobWithCompanyDto> getJobById(@PathVariable Long id) {
         //what if job not found for given id => should return 404 as response
         //will go for ResponseEntity for the same
-        Job job = jobService.getJobById(id);
-        if (Objects.nonNull(job)) {
-            return new ResponseEntity<>(job, HttpStatus.OK);
+        JobWithCompanyDto JobWithCompanyDto = jobService.findJobWithCompanyByJobId(id);
+        if (Objects.nonNull(JobWithCompanyDto)) {
+            return new ResponseEntity<>(JobWithCompanyDto, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
