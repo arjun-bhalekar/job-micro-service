@@ -1,6 +1,6 @@
 package com.sb.app.job.ms.controller;
 
-import com.sb.app.job.ms.dto.JobWithCompanyDto;
+import com.sb.app.job.ms.dto.JobDto;
 import com.sb.app.job.ms.entity.Job;
 import com.sb.app.job.ms.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class JobController {
     private JobService jobService;
 
     @GetMapping
-    public ResponseEntity<List<JobWithCompanyDto>> findAll() {
+    public ResponseEntity<List<JobDto>> findAll() {
         return ResponseEntity.ok(jobService.findAllJobWithCompany());
     }
 
@@ -38,12 +38,12 @@ public class JobController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<JobWithCompanyDto> getJobById(@PathVariable Long id) {
+    public ResponseEntity<JobDto> getJobById(@PathVariable Long id) {
         //what if job not found for given id => should return 404 as response
         //will go for ResponseEntity for the same
-        JobWithCompanyDto JobWithCompanyDto = jobService.findJobWithCompanyByJobId(id);
-        if (Objects.nonNull(JobWithCompanyDto)) {
-            return new ResponseEntity<>(JobWithCompanyDto, HttpStatus.OK);
+        JobDto JobDto = jobService.findJobWithCompanyByJobId(id);
+        if (Objects.nonNull(JobDto)) {
+            return new ResponseEntity<>(JobDto, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

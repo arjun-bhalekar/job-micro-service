@@ -1,6 +1,6 @@
 package com.sb.app.job.ms.service;
 
-import com.sb.app.job.ms.dto.JobWithCompanyDto;
+import com.sb.app.job.ms.dto.JobDto;
 import com.sb.app.job.ms.entity.Job;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface JobService {
 
     Long findJobCountBy(Long companyId);
 
-    List<JobWithCompanyDto> findAllJobWithCompany();
+    List<JobDto> findAllJobWithCompany();
 
-    JobWithCompanyDto findJobWithCompanyByJobId(Long id);
+    JobDto findJobWithCompanyByJobId(Long id);
 }
