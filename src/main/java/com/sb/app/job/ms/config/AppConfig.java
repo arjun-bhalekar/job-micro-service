@@ -9,10 +9,10 @@ import org.springframework.web.client.RestTemplate;
 public class AppConfig {
 
 
-    @Bean
-    @LoadBalanced
-    public RestTemplate getRestTemplate() {
-        return new RestTemplate();
-    }
+//    @Bean
+//    @LoadBalanced
+//    public RestTemplate getRestTemplate() {
+//        return new RestTemplate();
+//    }
 
 }
