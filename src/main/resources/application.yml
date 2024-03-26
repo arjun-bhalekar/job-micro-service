@@ -2,6 +2,7 @@
 server:
   port: 8082
 
+debug: false
 
 spring:
   application:
@@ -27,3 +28,14 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+# zipkin
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    brave:
+      span-joining-supported: true
+    propagation:
+      type:
+        - B3
