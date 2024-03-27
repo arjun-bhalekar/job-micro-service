@@ -20,6 +20,11 @@ spring:
     hibernate:
       ddl-auto: update
     database: POSTGRESQL
+# config server
+  config:
+    import:
+      #- configserver:http://localhost:8888
+      - optional:configserver:http://localhost:8888
 
 # Eureka related
 eureka:
@@ -29,13 +34,16 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
+
+
+
 # zipkin
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-    brave:
-      span-joining-supported: true
-    propagation:
-      type:
-        - B3
+#management:
+#  tracing:
+#    sampling:
+#      probability: 1.0
+#    brave:
+#      span-joining-supported: true
+#    propagation:
+#      type:
+#        - B3

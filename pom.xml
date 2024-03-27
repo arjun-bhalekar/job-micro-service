@@ -59,13 +59,19 @@
 
 
 		<!--for Zipkin & Micrometer integration -->
+<!--		<dependency>-->
+<!--			<groupId>io.micrometer</groupId>-->
+<!--			<artifactId>micrometer-tracing-bridge-brave</artifactId>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>io.zipkin.reporter2</groupId>-->
+<!--			<artifactId>zipkin-reporter-brave</artifactId>-->
+<!--		</dependency>-->
+
+		<!-- for Spring cloud config - client  -->
 		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-tracing-bridge-brave</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.zipkin.reporter2</groupId>
-			<artifactId>zipkin-reporter-brave</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 
 		<dependency>
@@ -74,9 +80,11 @@
 			<scope>test</scope>
 		</dependency>
 
+
+
 	</dependencies>
 
-	<!-- for Registering to eureka-registry-server  -->
+	<!-- for Spring Cloud Dependencies  -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
