@@ -78,3 +78,19 @@ Spring Boot based Microservice for Job (Backend) Application.
 #### Working of Spring Config Server :
 
 ![](images/16.working-of-config-server.png)
+
+----
+
+## API Gateway :
+
+![](images/17.API-Gateway-Benefits.png)
+
+#### Features :
+
+![](images/18-API-Gateway-Capabilities.png)
+
+![](images/18-API-Gateway-Capabilities-2.png)
+
+### Job Service Architecture with API Gateway :
+
+![](images/19.job-service-architecture--Gateway.png)
