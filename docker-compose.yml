@@ -29,6 +29,7 @@ services:
       - postgres
     restart: unless-stopped
 
+#--Zipkin- Distributed Tracing System
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
@@ -36,10 +37,113 @@ services:
       - 9411:9411
     networks:
       - postgres
+      - microservice-network
+    restart: unless-stopped
+
+#--- RabbitMQ (Message Queue)
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672  #Web - http://localhost:15672
+    networks:
+      - postgres
+      - microservice-network
+
+
+  config-server-job:
+    image: arjunb95/config-server-job:latest
+    container_name: config-server
+    ports:
+      - 8888:8888
+    depends_on:
+      - service-registry
+    networks:
+      - postgres
+      - microservice-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  service-registry:
+    image: arjunb95/service-registry:latest
+    container_name: service-registry
+    ports:
+      - 8761:8761
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - postgres
+      - pgadmin
+    networks:
+      - microservice-network
+      - postgres
+
+  company-ms:
+    image: arjunb95/company-ms:latest
+    container_name: company
+    ports:
+      - 8081:8081
+    depends_on:
+      - service-registry
+      - config-server-job
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  job-ms:
+    image: arjunb95/job-ms:latest
+    container_name: job
+    ports:
+      - 8082:8082
+    depends_on:
+      - service-registry
+      - config-server-job
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+
+  review-ms:
+    image: arjunb95/review-ms:latest
+    container_name: review
+    ports:
+      - 8083:8083
+    depends_on:
+      - service-registry
+      - config-server-job
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  gateway-app:
+    image: arjunb95/gateway-app:latest
+    container_name: gateway-app
+    ports:
+      - 8084:8084
+    depends_on:
+      - service-registry
+      - company-ms
+      - job-ms
+      - review-ms
+    networks:
+      - postgres
+      - microservice-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
 
 
 networks:
   postgres:
+    driver: bridge
+  microservice-network:
     driver: bridge
 
 volumes:

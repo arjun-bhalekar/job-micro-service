@@ -2,21 +2,20 @@
 server:
   port: 8082
 
-debug: false
-
 job-service:
-  url: http://localhost:8082
+  url: http://job:8082
 company-service:
-  url: http://localhost:8081
+  url: http://company:8081
 review-service:
-  url: http://localhost:8083
+  url: http://review:8083
+
 
 
 spring:
   application:
     name: job-micro-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/job
+    url: jdbc:postgresql://postgres_container:5432/job
     username: parjunb
     password: parjunb
 #    url: jdbc:h2:mem:test
@@ -32,7 +31,7 @@ spring:
   config:
     import:
       #- configserver:http://localhost:8888
-      - optional:configserver:http://localhost:8888
+      - optional:configserver:http://config-server:8888
 
 # Eureka related
 eureka:
@@ -40,7 +39,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://service-registry:8761/eureka/
 
 
 
@@ -50,3 +49,6 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
