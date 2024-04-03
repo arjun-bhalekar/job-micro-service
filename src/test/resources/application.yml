@@ -1,0 +1,42 @@
+#spring.application.name=job-micro-service
+debug: false
+
+job-service:
+  url: http://localhost:8082
+company-service:
+  url: http://localhost:8081
+review-service:
+  url: http://localhost:8083
+
+
+spring:
+  application:
+    name: job-micro-service
+  datasource:
+    url: jdbc:h2:mem:test
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
+# config server
+  config:
+    import:
+      - optional:configserver:http://localhost:8888
+
+# Eureka related
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+
+
+# zipkin
+#management:
+#  tracing:
+#    sampling:
+#      probability: 1.0
